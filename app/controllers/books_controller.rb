@@ -1,12 +1,6 @@
 class BooksController < ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update]
 
-  def show
-    @book = Book.find(params[:id])
-    @user = User.find(@book.user_id)
-    @new_book = Book.new
-  end
-
   def index
     @books = Book.all
     @book = Book.new
@@ -23,6 +17,13 @@ class BooksController < ApplicationController
       @books = Book.all
       render 'index'
     end
+  end
+
+  def show
+    @book = Book.find(params[:id])
+    @user = User.find(@book.user_id)
+    @new_book = Book.new
+    @book_comment = BookComment.new
   end
 
   def edit

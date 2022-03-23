@@ -4,14 +4,14 @@
       <h2>User info</h2>
       <%= render 'users/info', user: @user %>
       <h2 class="mt-3">New book</h2>
-      <%= render 'form', book: @new_book %>
+      <%= render 'books/form', book: @new_book %>
     </div>
     <div class='col-md-8 offset-md-1'>
   		<h2>Book detail</h2>
   		<table class='table'>
   		  <tr>
           <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
+            <%= image_tag @book.user.get_profile_image, size:"63x63" %><br>
             <%= @book.user.name %>
             <% end %>
           </td>
@@ -28,12 +28,51 @@
               <% end %>
             <% end %>
           </td>
+          <td>コメント数：<%= @book.book_comments.count %></td>
           <% if @book.user.id == current_user.id %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
           <% end %>
         </tr>
       </table>
+      <h3>Comments</h3>
+      <div class='row'>
+      <% @book.book_comments.each do |book_comment| %>
+        <div class='col-md-2'>
+          <%= image_tag book_comment.user.get_profile_image, size:"63x63" %><br>
+          <%= book_comment.user.name %>
+        </div>
+        <div class='col-md-5 offset-md-1'>
+          <%= book_comment.comment %>
+        </div>
+        <div class='col-md-3 offset-md-1'>
+        <% if book_comment.user == current_user %>
+          <%= link_to 'Destroy', book_book_comment_path(book_comment.book, book_comment), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_comment_#{book_comment.id}"%>
+        <% end %>
+        </div>
+      <% end %>
+      </div>
+      <div class="row">
+        <div class="col">
+        <%= form_with model: [@book, @book_comment] do |f| %>
+
+          <% if @error_comment.present? %>
+            <div id="error_explanation">
+              <%= @error_comment.errors.count %> error prohibited this obj from being saved:
+              <ul>
+                <% @error_comment.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <%= f.text_area :comment, class: "form-control", rows: '5', placeholder: "コメントをここに" %>
+          <br>
+          <%= f.submit "送信" %>
+        <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
