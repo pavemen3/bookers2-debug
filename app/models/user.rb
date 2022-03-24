@@ -7,10 +7,14 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
-  has_many :follower_id, class_name: "Relationship", foreign_key: "user_id", dependent: :destroy # フォロー取得
-  has_many :followed_id, class_name: "Relationship", foreign_key: "user_id", dependent: :destroy # フォロワー取得
-  has_many :following_user, through: :follower, source: :followed # 自分がフォローしている人
-  has_many :followed_user, through: :followed, source: :follower  # 自分をフォローしている人
+
+  # フォローをした、されたの関係
+  has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+
+  # 一覧画面で使う
+  has_many :followings, through: :relationships, source: :followed
+  has_many :followers, through: :reverse_of_relationships, source: :follower
 
   has_one_attached :profile_image
 
@@ -21,18 +25,16 @@ class User < ApplicationRecord
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
   end
 
-  # ユーザーをフォローする、controllerで使用します。
+  # フォローしたときの処理
   def follow(user_id)
-    follower.create(followed_id: user_id)
+    relationships.create(followed_id: user_id)
   end
-
-  # ユーザーのフォローを外す、controllerで使用します。
+  # フォローを外すときの処理
   def unfollow(user_id)
-    follower.find_by(followed_id: user_id).destroy
+    relationships.find_by(followed_id: user_id).destroy
   end
-
-  # フォローしていればtrueを返す、viewで使用します。
+  # フォローしているか判定
   def following?(user)
-    following_user.include?(user)
+    followings.include?(user)
   end
 end
