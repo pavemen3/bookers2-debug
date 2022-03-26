@@ -23,6 +23,7 @@
           <td class="book_comments_count">
             <%= render "book_comments/comments_count", book: @book %>
           </td>
+          <td><p class="view-count">閲覧数: <%= @book.view_counts.count %></p></td>
           <% if @book.user.id == current_user.id %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>

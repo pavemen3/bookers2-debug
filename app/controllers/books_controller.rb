@@ -2,10 +2,10 @@ class BooksController < ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
+    @user = User.find(current_user.id)
     # @books = Book.all
     @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
     @book = Book.new
-    @user = User.find(current_user.id)
   end
 
   def create
@@ -23,6 +23,9 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     @user = User.find(@book.user_id)
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @book.id)
+      current_user.view_counts.create(book_id: @book.id)
+    end
     @new_book = Book.new
     @book_comment = BookComment.new
   end
