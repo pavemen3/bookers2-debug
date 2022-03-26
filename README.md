@@ -1,24 +1,31 @@
-# README
+# Bookers2(This application is a programming school challenge)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Bookers2 is the SNS for book lovers.
 
-Things you may want to cover:
+# Features
 
-* Ruby version
+Mutual follow function
+Comment writing function for posted books
+Chat function
+Like function
 
-* System dependencies
+# Requirement
 
-* Configuration
+* ruby 2.6.3
+* Rails 6.1.4
 
-* Database creation
+# Installation
 
-* Database initialization
+```bash
+git clone https://github.com/pavemen3/bookers2-debug.git
+```
 
-* How to run the test suite
+# Usage
 
-* Services (job queues, cache servers, search engines, etc.)
+# Note
 
-* Deployment instructions
+# Author
 
-* ...
+# License
+
+"Bookers2" is a programming school challenge.

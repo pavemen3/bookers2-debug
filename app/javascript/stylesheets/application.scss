@@ -1,2 +1,8 @@
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+$color-notice: #008000;
+
+.main__notice {
+  color: $color-notice;
+}
