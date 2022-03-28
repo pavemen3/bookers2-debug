@@ -48,6 +48,6 @@ class UsersController < ApplicationController
   end
 
   def ratio_post(books, prev_books)
-    prev_books.count > 0 ? (books.count.to_f / prev_books.count.to_f) * 100 : 0.to_f
+    prev_books.count > 0 ? (books.count.to_f / prev_books.count.to_f) * 100 : " - "
   end
 end

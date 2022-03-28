@@ -44,6 +44,27 @@
           <td><%= @compared_to_last_week %> %</td>
         </tbody>
       </table>
+      <h2>7日分の投稿数</h2>
+      <table class="table table-bordered">
+        <thead>
+          <th>6日前</th>
+          <th>5日前</th>
+          <th>4日前</th>
+          <th>3日前</th>
+          <th>2日前</th>
+          <th>1日前</th>
+          <th>今日</th>
+        </thead>
+        <tbody>
+          <td><%= current_user.books.where('created_at > ?', Time.current.ago(6.days)).count %></td>
+          <td><%= current_user.books.where('created_at > ?', Time.current.ago(5.days)).count %></td>
+          <td><%= current_user.books.where('created_at > ?', Time.current.ago(4.days)).count %></td>
+          <td><%= current_user.books.where('created_at > ?', Time.current.ago(3.days)).count %></td>
+          <td><%= current_user.books.where('created_at > ?', Time.current.ago(2.days)).count %></td>
+          <td><%= @yesterday_books.count %></td>
+          <td><%= @today_books.count %></td>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
