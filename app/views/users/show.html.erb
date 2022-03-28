@@ -56,15 +56,143 @@
           <th>今日</th>
         </thead>
         <tbody>
-          <td><%= current_user.books.where('created_at > ?', Time.current.ago(6.days)).count %></td>
-          <td><%= current_user.books.where('created_at > ?', Time.current.ago(5.days)).count %></td>
-          <td><%= current_user.books.where('created_at > ?', Time.current.ago(4.days)).count %></td>
-          <td><%= current_user.books.where('created_at > ?', Time.current.ago(3.days)).count %></td>
-          <td><%= current_user.books.where('created_at > ?', Time.current.ago(2.days)).count %></td>
+          <td><%= current_user.books.created_days_ago(6).count %></td>
+          <td><%= current_user.books.created_days_ago(5).count %></td>
+          <td><%= current_user.books.created_days_ago(4).count %></td>
+          <td><%= current_user.books.created_days_ago(3).count %></td>
+          <td><%= current_user.books.created_days_ago(2).count %></td>
           <td><%= @yesterday_books.count %></td>
           <td><%= @today_books.count %></td>
         </tbody>
       </table>
+      <canvas id="myLineChart"></canvas>
+      <script>
+        const ctx = document.getElementById("myLineChart");
+        const myChart = new Chart(ctx, {
+          /* グラフの種類 (bar、line、rader、pie、doughnut、polarArea、bubble などがある) */
+          type: "line",
+          data: {
+            /* 各項目のラベル(上から時計回り) */
+            labels: [
+              "6日前",
+              "5日前",
+              "4日前",
+              "3日前",
+              "2日前",
+              "1日前",
+              "今日",
+            ],
+            /* データの設定 */
+            datasets: [
+              {
+                /* グラフ全体のラベル */
+                label: "投稿した本の数",
+                /* グラフのデータ(縦軸) */
+                data: [
+                  <%= current_user.books.created_days_ago(6).count %>,
+                  <%= current_user.books.created_days_ago(5).count %>,
+                  <%= current_user.books.created_days_ago(4).count %>,
+                  <%= current_user.books.created_days_ago(3).count %>,
+                  <%= current_user.books.created_days_ago(2).count %>,
+                  <%= current_user.books.created_days_ago(1).count %>,
+                  <%= current_user.books.created_days_ago(0).count %>
+                ],
+                /* データライン*/
+                borderColor: '#00f',
+                lineTension: 0.5,
+                fill: false,
+              }
+            ],
+          },
+          options: {
+            plugins: {
+              // グラフタイトル
+              title: {
+                display: true,
+                text: '7日間の投稿数の比較',
+                color: 'black',
+                padding: {top: 5, bottom: 5},
+                font: {
+                  family: '"Arial", "Times New Roman"',
+                  size: 12,
+                },
+              },
+              // 凡例
+              legend: {
+                position: 'top',
+                align: 'center',
+                // 凡例ラベル
+                labels: {
+                  boxWidth: 20,
+                  boxHeight: 8,
+                },
+                // 凡例タイトル
+                title: {
+                  display: false,
+                  text: 'Legend',
+                  // padding: {top: 20},
+                },
+              },
+              // ツールチップ
+              tooltip: {
+                backgroundColor: '#933',
+              },
+            },
+            scales: {
+              y: {
+                // 最小値・最大値
+                min: 0,
+                max: 6,
+                // 軸タイトル
+                title: {
+                  display: false,
+                  text: 'Scale Title',
+                  color: 'blue',
+                },
+                // 目盛ラベル
+                ticks: {
+                  color: 'blue',
+                  stepSize: 1,
+                  showLabelBackdrop: true,
+                  backdropColor: '#fff',
+                  backdropPadding: { x: 4, y: 2 },
+                  major: {
+                    enabled: false,
+                  },
+                  align: 'end',
+                  crossAlign: 'center',
+                  sampleSize: 4,
+                },
+                grid: {
+                  // 軸線
+                  borderColor: '#efefef',
+                  borderWidth: 1,
+                  drawBorder: true,
+                  // 目盛線＆グリッド線
+                  color: '#ccc',
+                  display: true,
+                  // グリッド線
+                  // borderDash: [3, 3],
+                  borderDashOffset: 0,
+                  // 目盛線
+                  drawTicks: false,
+                  tickColor: 'blue',
+                  tickLength: 10,
+                  tickWidth: 2,
+                  // tickBorderDash: [2, 2],
+                  tickBorderDashOffset: 0,
+                },
+              },
+              x: {
+                grid: {
+                  borderColor: '#ccc',
+                  borderWidth: 2,
+                },
+              },
+            },
+          },
+        });
+      </script>
     </div>
   </div>
 </div>
