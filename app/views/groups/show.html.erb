@@ -28,6 +28,7 @@
             <th>メンバー</th>
             <th></th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -41,10 +42,15 @@
               <% end %>
             </td>
             <td>
+              <% if current_user.id == @group.owner_id %>
+                <%= link_to "Notice an Event", group_new_mail_path(@group), class: "btn btn-warning" %>
+              <% end %>
+            </td>
+            <td>
               <% if @group.users.include?(current_user) %>
                 <%= link_to "Leave this group", group_path(@group.id), method: :delete, class: "btn btn-danger" %>
               <% else %>
-                <%= link_to "Join this group", group_join_path(@group.id), method: :get, class: "btn btn-info" %>
+                <%= link_to "Join this group", group_join_path(@group.id), method: :get, class: "btn btn-primary" %>
               <% end %>
             </td>
             <td>
