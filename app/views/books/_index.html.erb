@@ -26,7 +26,7 @@
           <%= render "book_comments/comments_count", book: book %>
         </td>
         <td>
-          <div id="star-rate<%= book.id%>"></td>
+          <div id="star-rate<%= book.id%>"></div>
           <script>
             $('#star-rate<%= book.id %>').empty();
             $('#star-rate<%= book.id%>').raty({
@@ -38,7 +38,6 @@
               score: <%= book.star %>,
             });
           </script>
-          </div>
         </td>
         <td><p class="view-count"><%= book.view_counts.count %></p></td>
       </tr>

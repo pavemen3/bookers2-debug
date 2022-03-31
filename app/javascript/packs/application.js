@@ -19,3 +19,4 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 global.Chart = Chart;
+window.$ = window.jQuery = require('jquery');
