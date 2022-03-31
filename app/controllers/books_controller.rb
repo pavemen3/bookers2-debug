@@ -4,7 +4,15 @@ class BooksController < ApplicationController
   def index
     @user = User.find(current_user.id)
     # @books = Book.all
-    @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
+    # @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
+    if params[:option] == "new"
+      @books = Book.all.order('created_at DESC')
+    elsif params[:option] == "score"
+      @books = Book.all.order('star DESC')
+    else
+      @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
+    end
+
     @book = Book.new
   end
 
