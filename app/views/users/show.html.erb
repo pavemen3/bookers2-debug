@@ -20,7 +20,7 @@
     <div class='col-md-8 offset-md-1'>
       <%= render 'books/index',books: @books %>
 
-      <%= form_with url: user_search_path(@user.id), method: :get, local: false do |f| %>
+      <%= form_with url: user_search_path(@user), method: :get, local: false do |f| %>
         <%= f.date_field :created_at, class: "date_search" %>
         <%= f.submit '検索', class: 'btn btn-primary'  %>
       <% end %>
