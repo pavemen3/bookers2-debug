@@ -29,6 +29,16 @@ class SearchsController < ApplicationController
       else
         Book.where('title LIKE ?', '%' + content + '%')
       end
+    elsif model == "category"
+      if method == "perfect"
+        Book.where(category: content)
+      elsif method == "forward_match"
+        Book.where('category LIKE ?', content + '%')
+      elsif method == "backward_match"
+        Book.where('category LIKE ?', '%' + content)
+      else
+        Book.where('category LIKE ?', '%' + content + '%')
+      end
     end
   end
 end

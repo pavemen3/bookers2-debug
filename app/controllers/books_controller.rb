@@ -3,16 +3,17 @@ class BooksController < ApplicationController
 
   def index
     @user = User.find(current_user.id)
-    # @books = Book.all
-    # @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
     if params[:option] == "new"
       @books = Book.all.order('created_at DESC')
     elsif params[:option] == "score"
       @books = Book.all.order('star DESC')
+    elsif params[:category]
+      @category = params[:category]
+      @books = Book.where(category: @category)
     else
+      # いいねの多い順
       @books = Book.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
     end
-
     @book = Book.new
   end
 
@@ -60,7 +61,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star)
+    params.require(:book).permit(:title, :body, :star, :category)
   end
 
   def ensure_correct_user

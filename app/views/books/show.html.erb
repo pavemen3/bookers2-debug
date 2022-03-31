@@ -7,42 +7,61 @@
       <%= render 'books/form', book: @new_book %>
     </div>
     <div class='col-md-8 offset-md-1'>
-  		<h2>Book detail</h2>
-  		<table class='table'>
-  		  <tr>
-          <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_profile_image, size:"63x63" %><br>
-            <%= @book.user.name %>
+      <h2>Book detail</h2>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+            <th>Category</th>
+            <th>いいね数</th>
+            <th>コメント数</th>
+            <th>閲覧数</th>
+            <th>評価</th>
+            <% if @book.user.id == current_user.id %>
+              <th></th>
+              <th></th>
             <% end %>
-          </td>
-          <td><%= link_to @book.title, @book %></td>
-          <td><%= @book.body %></td>
-          <td id="favorite_btn_<%= @book.id %>">
-            <%= render "favorites/favorite_btn", book: @book %>
-          </td>
-          <td class="book_comments_count">
-            <%= render "book_comments/comments_count", book: @book %>
-          </td>
-          <td><p class="view-count">閲覧数: <%= @book.view_counts.count %></p></td>
-          <td>
-            <div id="star-rate<%= @book.id%>"></div>
-             <script>
-              $('#star-rate<%= @book.id %>').empty();
-              $('#star-rate<%= @book.id%>').raty({
-                 size      : 36,
-                 starOff   : '<%= asset_path('star-off.png') %>',
-                 starOn    : '<%= asset_path('star-on.png') %>',
-                 half      : false,
-                 readOnly: true,
-                 score: <%= @book.star %>,
-               });
-             </script>
-          </td>
-          <% if @book.user.id == current_user.id %>
-            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
-            <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
-          <% end %>
-        </tr>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= link_to(@book.user) do %>
+              <%= image_tag @book.user.get_profile_image, size:"63x63" %><br>
+              <%= @book.user.name %>
+              <% end %>
+            </td>
+            <td><%= link_to @book.title, @book %></td>
+            <td><%= @book.body %></td>
+            <td><%= @book.category %></td>
+            <td id="favorite_btn_<%= @book.id %>">
+              <%= render "favorites/favorite_btn", book: @book %>
+            </td>
+            <td class="book_comments_count">
+              <%= render "book_comments/comments_count", book: @book %>
+            </td>
+            <td><p class="view-count"><%= @book.view_counts.count %></p></td>
+            <td>
+              <div id="star-rate<%= @book.id%>"></div>
+               <script>
+                $('#star-rate<%= @book.id %>').empty();
+                $('#star-rate<%= @book.id%>').raty({
+                   size      : 36,
+                   starOff   : '<%= asset_path('star-off.png') %>',
+                   starOn    : '<%= asset_path('star-on.png') %>',
+                   half      : false,
+                   readOnly: true,
+                   score: <%= @book.star %>,
+                 });
+               </script>
+            </td>
+            <% if @book.user.id == current_user.id %>
+              <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
+              <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
+            <% end %>
+          </tr>
+        </tbody>
       </table>
       <h3>Comments</h3>
       <div id="book_comments" class='col-md-12'>

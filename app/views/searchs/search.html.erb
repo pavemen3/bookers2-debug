@@ -1,7 +1,16 @@
-<% if @model == 'user' %>
-  <h3>【Usersの検索結果】検索ワード：<%= @content %></h3>
-  <%= render 'users/index', users: @records %>
-<% else @model == 'book' %>
-  <h3>【Bookの検索結果】検索ワード：<%= @content %></h3>
-  <%= render 'books/index', books: @records %>
-<% end %>
+<div class='container px-5 px-sm-0'>
+  <div class="row">
+    <div class="col">
+      <% if @model == 'user' %>
+        <h3>【Usersの検索結果】検索ワード：<%= @content %></h3>
+        <%= render 'users/index', users: @records %>
+      <% elsif @model == 'book' %>
+        <h3>【Bookの検索結果】検索ワード：<%= @content %></h3>
+        <%= render 'books/index', books: @records %>
+      <% elsif @model == 'category' %>
+        <h3>【Categoryの検索結果】検索ワード：<%= @content %></h3>
+        <%= render 'books/index', books: @records %>
+      <% end %>
+    </div>
+  </div>
+</div>
