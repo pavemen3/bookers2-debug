@@ -12,7 +12,8 @@ import "popper.js"
 import "bootstrap"
 import '@fortawesome/fontawesome-free/js/all';
 import Chart from 'chart.js/auto';
-import "../stylesheets/application" 
+import "../stylesheets/application"
+import "raty.js"
 
 Rails.start()
 Turbolinks.start()
